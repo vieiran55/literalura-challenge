@@ -1,11 +1,18 @@
 package com.alura.literatura.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.alura.literatura.model.Dados;
 
-public class ConverteDados {
-    public Dados obterDados(String json) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, Dados.class);
+public class ConverteDados implements IConverteDados{
+    private ObjectMapper mapper = new ObjectMapper();
+
+
+    @Override
+    public <T> T obterDados(String json, Class<T> classe) {
+        try {
+            return mapper.readValue(json, classe);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
